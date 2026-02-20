@@ -177,6 +177,9 @@ void Foliage::updateFoliage() {
             _multiMeshInstance3D->set_cast_shadows_setting(GeometryInstance3D::ShadowCastingSetting::SHADOW_CASTING_SETTING_OFF);
         }
 
+        _foliageShader->set_shader_parameter(StringNames::MeshRotationBase(), _definition->get_meshRotationBase());
+        _foliageShader->set_shader_parameter(StringNames::MeshRotationRandomSpin(), _definition->get_meshRotationRandomSpin());
+
         _foliageShader->set_shader_parameter(StringNames::InitialCellWidth(), _definition->get_lodInitialCellWidth());
         _foliageShader->set_shader_parameter(StringNames::LODRowsPerLevel(), _definition->get_lodRowsPerLevel());
         _foliageShader->set_shader_parameter(StringNames::LODLevels(), _definition->get_lodLevels());
@@ -242,8 +245,6 @@ void Foliage::updateFoliage() {
 
     _foliageShader->set_shader_parameter(StringNames::FoliageTextures(), _terrainZones->get_foliagesTextures()[_foliageIndex]);
     _foliageShader->set_shader_parameter(StringNames::MeshScale(), _definition->get_meshScale());
-    _foliageShader->set_shader_parameter(StringNames::MeshRotationBase(), _definition->get_meshRotationBase());
-    _foliageShader->set_shader_parameter(StringNames::MeshRotationRandomSpin(), _definition->get_meshRotationRandomSpin());
     _foliageShader->set_shader_parameter(StringNames::WindStrength(), _definition->get_windStrength());
 
     _foliageShader->set_shader_parameter(StringNames::WaterTextures(), _terrainZones->get_waterTextures());

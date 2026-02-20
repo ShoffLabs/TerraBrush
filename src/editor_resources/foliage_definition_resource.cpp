@@ -134,6 +134,8 @@ FoliageDefinitionResource::~FoliageDefinitionResource() {}
 
 void FoliageDefinitionResource::_validate_property(PropertyInfo &property) const {
     static const TypedArray<StringName> MultimeshProperties = {
+        "meshRotationBase",
+        "meshRotationRandomSpin",
         "lodLevels",
         "lodRowsPerLevel",
         "lodInitialCellWidth",
@@ -194,20 +196,6 @@ void FoliageDefinitionResource::set_meshScale(const Vector3 value) {
     _meshScale = value;
 }
 
-float FoliageDefinitionResource::get_meshRotationBase() const {
-    return _meshRotationBase;
-}
-void FoliageDefinitionResource::set_meshRotationBase(const float value) {
-    _meshRotationBase = value;
-}
-
-float FoliageDefinitionResource::get_meshRotationRandomSpin() const {
-    return _meshRotationRandomSpin;
-}
-void FoliageDefinitionResource::set_meshRotationRandomSpin(const float value) {
-    _meshRotationRandomSpin = value;
-}
-
 float FoliageDefinitionResource::get_windStrength() const {
     return _windStrength;
 }
@@ -230,6 +218,20 @@ void FoliageDefinitionResource::set_visualInstanceLayers(const int value) {
 }
 
 // _multimesh settings
+float FoliageDefinitionResource::get_meshRotationBase() const {
+    return _meshRotationBase;
+}
+void FoliageDefinitionResource::set_meshRotationBase(const float value) {
+    _meshRotationBase = value;
+}
+
+float FoliageDefinitionResource::get_meshRotationRandomSpin() const {
+    return _meshRotationRandomSpin;
+}
+void FoliageDefinitionResource::set_meshRotationRandomSpin(const float value) {
+    _meshRotationRandomSpin = value;
+}
+
 int FoliageDefinitionResource::get_lodLevels() const {
     return _lodLevels;
 }

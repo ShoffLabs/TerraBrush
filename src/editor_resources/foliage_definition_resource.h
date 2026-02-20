@@ -11,7 +11,8 @@
 
 using namespace godot;
 
-class FoliageDefinitionResource : public Resource {
+class FoliageDefinitionResource : public Resource
+{
     GDCLASS(FoliageDefinitionResource, Resource);
 
 private:
@@ -61,12 +62,6 @@ public:
     Vector3 get_meshScale() const;
     void set_meshScale(const Vector3 value);
 
-    float get_meshRotationBase() const;
-    void set_meshRotationBase(const float value);
-
-    float get_meshRotationRandomSpin() const;
-    void set_meshRotationRandomSpin(const float value);
-
     float get_windStrength() const;
     void set_windStrength(const float value);
 
@@ -77,6 +72,12 @@ public:
     void set_visualInstanceLayers(const int value);
 
     // _multimesh settings
+    float get_meshRotationBase() const;
+    void set_meshRotationBase(const float value);
+
+    float get_meshRotationRandomSpin() const;
+    void set_meshRotationRandomSpin(const float value);
+
     int get_lodLevels() const;
     void set_lodLevels(const int value);
 
