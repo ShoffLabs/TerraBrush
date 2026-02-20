@@ -18,6 +18,14 @@ void FoliageDefinitionResource::_bind_methods() {
     ClassDB::bind_method(D_METHOD("set_meshScale", "value"), &FoliageDefinitionResource::set_meshScale);
     ADD_PROPERTY(PropertyInfo(Variant::VECTOR3, "meshScale", PROPERTY_HINT_LINK), "set_meshScale", "get_meshScale");
 
+    ClassDB::bind_method(D_METHOD("get_meshRotationBase"), &FoliageDefinitionResource::get_meshRotationBase);
+    ClassDB::bind_method(D_METHOD("set_meshRotationBase", "value"), &FoliageDefinitionResource::set_meshRotationBase);
+    ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "meshRotationBase", PROPERTY_HINT_RANGE, "-180,180"), "set_meshRotationBase", "get_meshRotationBase");
+
+    ClassDB:bind_method(D_METHOD("get_meshRotationRandomSpin"), &FoliageDefinitionResource::get_meshRotationRandomSpin);
+    ClassDB:bind_method(D_METHOD("set_meshRotationRandomSpin", "value"), &FoliageDefinitionResource::set_meshRotationRandomSpin);
+    ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "meshRotationRandomSpin", PROPERTY_HINT_RANGE, "0,360"), "set_meshRotationRandomSpin", "get_meshRotationRandomSpin");
+
     ClassDB::bind_method(D_METHOD("get_windStrength"), &FoliageDefinitionResource::get_windStrength);
     ClassDB::bind_method(D_METHOD("set_windStrength", "value"), &FoliageDefinitionResource::set_windStrength);
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "windStrength"), "set_windStrength", "get_windStrength");
@@ -99,6 +107,8 @@ FoliageDefinitionResource::FoliageDefinitionResource() {
     _strategy = FoliageStrategy::FOLIAGESTRATEGY_MULTIMESH;
     _mesh = Ref<Mesh>(nullptr);
     _meshScale = Vector3(1.0, 1.0, 1.0);
+    _meshRotationBase = 0.0;
+    _meshRotationRandomSpin = 360.0;
     _windStrength = 0.1;
     _noiseTexture = Ref<Texture2D>(nullptr);
     _visualInstanceLayers = 1;
@@ -182,6 +192,20 @@ Vector3 FoliageDefinitionResource::get_meshScale() const {
 }
 void FoliageDefinitionResource::set_meshScale(const Vector3 value) {
     _meshScale = value;
+}
+
+float FoliageDefinitionResource::get_meshRotationBase() const {
+    return _meshRotationBase;
+}
+void FoliageDefinitionResource::set_meshRotationBase(const float value) {
+    _meshRotationBase = value;
+}
+
+float FoliageDefinitionResource::get_meshRotationRandomSpin() const {
+    return _meshRotationRandomSpin;
+}
+void FoliageDefinitionResource::set_meshRotationRandomSpin(const float value) {
+    _meshRotationRandomSpin = value;
 }
 
 float FoliageDefinitionResource::get_windStrength() const {

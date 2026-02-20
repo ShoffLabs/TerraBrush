@@ -18,6 +18,8 @@ class StringNames {
         const static StringName TextureDetail();
         const static StringName FoliageTextures();
         const static StringName MeshScale();
+        const static StringName MeshRotationBase();
+        const static StringName MeshRotationRandomSpin();
         const static StringName WindStrength();
         const static StringName WaterTextures();
         const static StringName WaterFactor();

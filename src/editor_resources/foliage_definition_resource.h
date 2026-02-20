@@ -18,6 +18,8 @@ private:
     FoliageStrategy _strategy = FoliageStrategy::FOLIAGESTRATEGY_MULTIMESH;
     Ref<Mesh> _mesh = nullptr;
     Vector3 _meshScale = Vector3();
+    float _meshRotationBase = 0;
+    float _meshRotationRandomSpin = 0;
     float _windStrength = 0;
     Ref<Texture2D> _noiseTexture = nullptr;
     int _visualInstanceLayers = 0;
@@ -58,6 +60,12 @@ public:
 
     Vector3 get_meshScale() const;
     void set_meshScale(const Vector3 value);
+
+    float get_meshRotationBase() const;
+    void set_meshRotationBase(const float value);
+
+    float get_meshRotationRandomSpin() const;
+    void set_meshRotationRandomSpin(const float value);
 
     float get_windStrength() const;
     void set_windStrength(const float value);

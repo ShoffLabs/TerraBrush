@@ -18,6 +18,11 @@ uniform float RandomPlacementRange = 2.0;
 uniform int[100] ApplyOnTextureIndexes;
 uniform int NumberOfTexturesToApplyOn = 0;
 uniform bool NearestFilter = false;
+uniform bool applyRandomMeshRotation = true;
+/** Sets the base rotation of the foliage mesh. 0.0 faces in the positive-z direction. */
+uniform float meshRotationBase: hint_range(-180.0, 180.0) = 0.0;
+/** Determine how much random spin to apply to the foliage mesh base rotation. The higher the value, the higher the variation. */
+uniform float meshRotationRandomSpin: hint_range(0.0, 360.0) = 360.0;
 
 uniform sampler2DArray HeightmapTextures: hint_default_black, repeat_disable;
 uniform sampler2DArray FoliageTextures : hint_default_black, repeat_disable;
@@ -300,7 +305,7 @@ void calculateFoliageVertex(int instanceID, inout vec3 vertex, inout vec3 normal
 				vertex = ((vertex - particlePosition) * rotateX(windDirection)) + particlePosition;
 
 				// Apply random rotation to each foliage
-				float randomRotation = mix(0, radians(360), randomValue);
+				float randomRotation = meshRotationBase + mix(0.0, radians(meshRotationRandomSpin), randomValue);
 				mat3 randomRotationMat = rotateY(randomRotation);
 				vertex = ((vertex - particlePosition) * randomRotationMat) + particlePosition;
 

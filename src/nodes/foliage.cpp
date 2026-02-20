@@ -242,6 +242,8 @@ void Foliage::updateFoliage() {
 
     _foliageShader->set_shader_parameter(StringNames::FoliageTextures(), _terrainZones->get_foliagesTextures()[_foliageIndex]);
     _foliageShader->set_shader_parameter(StringNames::MeshScale(), _definition->get_meshScale());
+    _foliageShader->set_shader_parameter(StringNames::MeshRotationBase(), _definition->get_meshRotationBase());
+    _foliageShader->set_shader_parameter(StringNames::MeshRotationRandomSpin(), _definition->get_meshRotationRandomSpin());
     _foliageShader->set_shader_parameter(StringNames::WindStrength(), _definition->get_windStrength());
 
     _foliageShader->set_shader_parameter(StringNames::WaterTextures(), _terrainZones->get_waterTextures());

@@ -13,6 +13,8 @@ const StringName StringNames::NumberOfTextures() { return "NumberOfTextures"; }
 const StringName StringNames::TextureDetail() { return "TextureDetail"; }
 const StringName StringNames::FoliageTextures() { return "FoliageTextures"; }
 const StringName StringNames::MeshScale() { return "MeshScale"; }
+const StringName StringNames::MeshRotationBase() { return "MeshRotationBase"; }
+const StringName StringNames::MeshRotationRandomSpin() { return "MeshRotationRandomSpin"; }
 const StringName StringNames::WindStrength() { return "WindStrength"; }
 const StringName StringNames::WaterTextures() { return "WaterTextures"; }
 const StringName StringNames::WaterFactor() { return "WaterFactor"; }
