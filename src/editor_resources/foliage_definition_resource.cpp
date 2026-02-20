@@ -22,8 +22,8 @@ void FoliageDefinitionResource::_bind_methods() {
     ClassDB::bind_method(D_METHOD("set_meshRotationBase", "value"), &FoliageDefinitionResource::set_meshRotationBase);
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "meshRotationBase", PROPERTY_HINT_RANGE, "-180,180"), "set_meshRotationBase", "get_meshRotationBase");
 
-    ClassDB:bind_method(D_METHOD("get_meshRotationRandomSpin"), &FoliageDefinitionResource::get_meshRotationRandomSpin);
-    ClassDB:bind_method(D_METHOD("set_meshRotationRandomSpin", "value"), &FoliageDefinitionResource::set_meshRotationRandomSpin);
+    ClassDB::bind_method(D_METHOD("get_meshRotationRandomSpin"), &FoliageDefinitionResource::get_meshRotationRandomSpin);
+    ClassDB::bind_method(D_METHOD("set_meshRotationRandomSpin", "value"), &FoliageDefinitionResource::set_meshRotationRandomSpin);
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "meshRotationRandomSpin", PROPERTY_HINT_RANGE, "0,360"), "set_meshRotationRandomSpin", "get_meshRotationRandomSpin");
 
     ClassDB::bind_method(D_METHOD("get_windStrength"), &FoliageDefinitionResource::get_windStrength);
