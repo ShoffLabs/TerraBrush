@@ -15,6 +15,9 @@ const StringName StringNames::FoliageTextures() { return "FoliageTextures"; }
 const StringName StringNames::MeshScale() { return "MeshScale"; }
 const StringName StringNames::MeshRotationBase() { return "MeshRotationBase"; }
 const StringName StringNames::MeshRotationRandomSpin() { return "MeshRotationRandomSpin"; }
+const StringName StringNames::UseWind2D() { return "UseWind2D"; }
+const StringName StringNames::Wind2DNoiseTexture() { return "Wind2DNoiseTexture"; }
+const StringName StringNames::Wind2dVelocity() { return "Wind2dVelocity"; }
 const StringName StringNames::WindStrength() { return "WindStrength"; }
 const StringName StringNames::WaterTextures() { return "WaterTextures"; }
 const StringName StringNames::WaterFactor() { return "WaterFactor"; }

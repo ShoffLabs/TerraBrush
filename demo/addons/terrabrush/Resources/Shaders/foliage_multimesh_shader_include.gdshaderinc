@@ -24,6 +24,15 @@ uniform float MeshRotationBase: hint_range(-180.0, 180.0) = 0.0;
 /** Determine how much random spin to apply to the foliage mesh base rotation. The higher the value, the higher the variation. */
 uniform float MeshRotationRandomSpin: hint_range(0.0, 360.0) = 360.0;
 
+group_uniforms Wind2D;
+/** Whether to use the Wind2D algorithm. If false, use the default TerraBrush wind. */
+uniform bool UseWind2D = false;
+/** Noise texture to use for wind_2d. */
+uniform sampler2D Wind2DNoiseTexture;
+/** X and Z velocity for wind_2d. */
+uniform vec2 Wind2dVelocity = vec2(0, 0);
+group_uniforms;
+
 uniform sampler2DArray HeightmapTextures: hint_default_black, repeat_disable;
 uniform sampler2DArray FoliageTextures : hint_default_black, repeat_disable;
 uniform sampler2D NoiseTexture : hint_default_transparent, repeat_disable;
@@ -134,6 +143,36 @@ vec4 calculateGroundColor(vec3 zoneUV) {
 
 	return resultTexture;
 }
+
+// Wind functions:
+
+float _wind_noise(vec3 worldPosition){
+	float value = texture(Wind2DNoiseTexture, (worldPosition.xz*0.03) - (vec2(TIME * 0.01) * Wind2dVelocity)).r;
+	return value;
+}
+
+// Custom wind function that applies wind in x&z direction. Borrowed from BinBun.
+vec3 wind_2d(vec2 uv, vec3 worldPosition){
+	float wind_noise = _wind_noise(worldPosition);
+	float wind_affect = pow(1.0 - uv.y, 2.0);
+	vec3 value = vec3(
+		wind_noise * (Wind2dVelocity.x),
+		0.0,
+		wind_noise * (Wind2dVelocity.y)) * 0.25;
+	value *= wind_affect;
+	return value;
+}
+
+// The default wind algorithm that comes with TerraBrush.
+vec3 default_wind(inout vec3 vertex, vec3 particlePosition, float randomValue){
+	float windDirection = 0.0;
+	if (randomValue > 0.5) {
+		windDirection = sin(TIME);
+	} else {
+		windDirection = cos(TIME);
+	}
+	windDirection *= randomValue * WindStrength;
+	vertex = ((vertex - particlePosition) * rotateX(windDirection)) + particlePosition;
 
 void calculateFoliageVertex(int instanceID, inout vec3 vertex, inout vec3 normal, inout vec4 color, out vec3 instancePosition) {
 	// Compute the clipmap INDEX position
@@ -293,16 +332,15 @@ void calculateFoliageVertex(int instanceID, inout vec3 vertex, inout vec3 normal
 				vertex.y += particlePosition.y;
 				vertex.z += particlePosition.z;
 
-				// Make the foliage wave with wind
+				// Create random value based on instance position.
 				float randomValue = hash_noise_range(instancePosition).x;
-				float windDirection = 0.0;
-				if (randomValue > 0.5) {
-					windDirection = sin(TIME);
+
+				// Make the foliage wave with wind
+				if (UseWind2D) {
+					vertex += wind_2d(instancePosition, worldVertex);
 				} else {
-					windDirection = cos(TIME);
+					default_wind(vertex, instancePosition, randomValue);
 				}
-				windDirection *= randomValue * WindStrength;
-				vertex = ((vertex - particlePosition) * rotateX(windDirection)) + particlePosition;
 
 				// Apply random rotation to each foliage
 				float randomRotation = MeshRotationBase + mix(0.0, radians(MeshRotationRandomSpin), randomValue);

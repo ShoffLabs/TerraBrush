@@ -29,6 +29,12 @@
 
 </div>
 
+## ShoffLabs Fork Notes
+
+- Here is a list of changes we made to support our project.
+  - Added foliage rotation settings so they can face the same direction (for fixed camera pixel-art game).
+  - Added foliage wind settings for more stylized wind.
+
 ## Disclaimer
 
 This project has been made mainly for my own project.
@@ -218,6 +224,9 @@ This was designed this way to avoid spamming the properties of the terrain to up
 |FoliageResource[x].Definition.MeshScale|The scale of the mesh.|
 |FoliageResource[x].Definition.MeshRotationBase|The base Y-direction our foliage will face.|
 |FoliageResource[x].Definition.MeshRotationRandomSpin|The max amount of rotation variance of MeshRotationBase.|
+|FoliageResource[x].Definition.UseWind2D|Whether to use our custom 2D grass noise, or the TerraBrush default.|
+|FoliageResource[x].Definition.Wind2DNoiseTexture|Wind2D only. 2D noise texture to use.|
+|FoliageResource[x].Definition.Wind2dVelocity|Wind2D only. X&Z wind velocity.|
 |FoliageResource[x].Definition.MeshScale|The scale of the mesh.|
 |FoliageResource[x].Definition.WindStrength|Creates some movement for the mesh. The default value is 0.1.|
 |FoliageResource[x].Definition.NoiseTexture|This texture makes sure that the foliage placement is not too straight. If not specified, the default noise texture will be used.|

@@ -21,6 +21,9 @@ private:
     Vector3 _meshScale = Vector3();
     float _meshRotationBase = 0;
     float _meshRotationRandomSpin = 0;
+    bool _useWind2D = false;
+    Ref<Texture2D> _wind2DNoiseTexture = nullptr;
+    Vector2 _wind2dVelocity = Vector2();
     float _windStrength = 0;
     Ref<Texture2D> _noiseTexture = nullptr;
     int _visualInstanceLayers = 0;
@@ -77,6 +80,15 @@ public:
 
     float get_meshRotationRandomSpin() const;
     void set_meshRotationRandomSpin(const float value);
+
+    bool get_useWind2D() const;
+    void set_useWind2D(const bool value);
+
+    Ref<Texture2D> get_wind2DNoiseTexture() const;
+    void set_wind2DNoiseTexture(const Ref<Texture2D> &value);
+
+    Vector2 get_wind2dVelocity() const;
+    void set_wind2dVelocity(const Vector2 value);
 
     int get_lodLevels() const;
     void set_lodLevels(const int value);

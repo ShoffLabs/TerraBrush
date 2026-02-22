@@ -26,6 +26,18 @@ void FoliageDefinitionResource::_bind_methods() {
     ClassDB::bind_method(D_METHOD("set_meshRotationRandomSpin", "value"), &FoliageDefinitionResource::set_meshRotationRandomSpin);
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "meshRotationRandomSpin", PROPERTY_HINT_RANGE, "0,360"), "set_meshRotationRandomSpin", "get_meshRotationRandomSpin");
 
+    ClassDB::bind_method(D_METHOD("get_useWind2D"), &FoliageDefinitionResource::get_useWind2D);
+    ClassDB::bind_method(D_METHOD("set_useWind2D", "value"), &FoliageDefinitionResource::set_useWind2D);
+    ADD_PROPERTY(PropertyInfo(Variant::BOOL, "useWind2D"), "set_useWind2D", "get_useWind2D");
+
+    ClassDB::bind_method(D_METHOD("get_wind2DNoiseTexture"), &FoliageDefinitionResource::get_wind2DNoiseTexture);
+    ClassDB::bind_method(D_METHOD("set_wind2DNoiseTexture", "value"), &FoliageDefinitionResource::set_wind2DNoiseTexture);
+    ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "wind2DNoiseTexture", PROPERTY_HINT_RESOURCE_TYPE, "Texture2D"), "set_wind2DNoiseTexture", "get_wind2DNoiseTexture");
+
+    ClassDB::bind_method(D_METHOD("get_wind2dVelocity"), &FoliageDefinitionResource::get_wind2dVelocity);
+    ClassDB::bind_method(D_METHOD("set_wind2dVelocity", "value"), &FoliageDefinitionResource::set_wind2dVelocity);
+    ADD_PROPERTY(PropertyInfo(Variant::VECTOR2, "wind2dVelocity"), "set_wind2dVelocity", "get_wind2dVelocity");
+
     ClassDB::bind_method(D_METHOD("get_windStrength"), &FoliageDefinitionResource::get_windStrength);
     ClassDB::bind_method(D_METHOD("set_windStrength", "value"), &FoliageDefinitionResource::set_windStrength);
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "windStrength"), "set_windStrength", "get_windStrength");
@@ -109,6 +121,9 @@ FoliageDefinitionResource::FoliageDefinitionResource() {
     _meshScale = Vector3(1.0, 1.0, 1.0);
     _meshRotationBase = 0.0;
     _meshRotationRandomSpin = 360.0;
+    _useWind2D = false;
+    _wind2DNoiseTexture = Ref<Texture2D>(nullptr);
+    _wind2dVelocity = Vector2(0, 0);
     _windStrength = 0.1;
     _noiseTexture = Ref<Texture2D>(nullptr);
     _visualInstanceLayers = 1;
@@ -136,6 +151,9 @@ void FoliageDefinitionResource::_validate_property(PropertyInfo &property) const
     static const TypedArray<StringName> MultimeshProperties = {
         "meshRotationBase",
         "meshRotationRandomSpin",
+        "useWind2D",
+        "wind2DNoiseTexture",
+        "wind2dVelocity",
         "lodLevels",
         "lodRowsPerLevel",
         "lodInitialCellWidth",
@@ -230,6 +248,27 @@ float FoliageDefinitionResource::get_meshRotationRandomSpin() const {
 }
 void FoliageDefinitionResource::set_meshRotationRandomSpin(const float value) {
     _meshRotationRandomSpin = value;
+}
+
+bool FoliageDefinitionResource::get_useWind2D() const {
+    return _useWind2D;
+}
+void FoliageDefinitionResource::set_useWind2D(const bool value) {
+    _useWind2D = value;
+}
+
+Ref<Texture2D> FoliageDefinitionResource::get_wind2DNoiseTexture() const {
+    return _wind2DNoiseTexture;
+}
+void FoliageDefinitionResource::set_wind2DNoiseTexture(const Ref<Texture2D> &value) {
+    _wind2DNoiseTexture = value;
+}
+
+Vector2 FoliageDefinitionResource::get_wind2dVelocity() const {
+    return _wind2dVelocity;
+}
+void FoliageDefinitionResource::set_wind2dVelocity(const Vector2 value) {
+    _wind2dVelocity = value;
 }
 
 int FoliageDefinitionResource::get_lodLevels() const {
