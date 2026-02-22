@@ -177,6 +177,9 @@ void Foliage::updateFoliage() {
             _multiMeshInstance3D->set_cast_shadows_setting(GeometryInstance3D::ShadowCastingSetting::SHADOW_CASTING_SETTING_OFF);
         }
 
+        _foliageShader->set_shader_parameter(StringNames::MeshRotationBase(), _definition->get_meshRotationBase());
+        _foliageShader->set_shader_parameter(StringNames::MeshRotationRandomSpin(), _definition->get_meshRotationRandomSpin());
+
         _foliageShader->set_shader_parameter(StringNames::InitialCellWidth(), _definition->get_lodInitialCellWidth());
         _foliageShader->set_shader_parameter(StringNames::LODRowsPerLevel(), _definition->get_lodRowsPerLevel());
         _foliageShader->set_shader_parameter(StringNames::LODLevels(), _definition->get_lodLevels());

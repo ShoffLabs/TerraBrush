@@ -216,6 +216,9 @@ This was designed this way to avoid spamming the properties of the terrain to up
 |FoliageResource[x].Definition.Strategy|The strategy used to generate the foliage (MultiMesh or GPUParticles). The default value is MultiMesh.|
 |FoliageResource[x].Definition.Mesh|The mesh that will be used for the foliage. The mesh should have as few vertices as possible for better performance.|
 |FoliageResource[x].Definition.MeshScale|The scale of the mesh.|
+|FoliageResource[x].Definition.MeshRotationBase|The base Y-direction our foliage will face.|
+|FoliageResource[x].Definition.MeshRotationRandomSpin|The max amount of rotation variance of MeshRotationBase.|
+|FoliageResource[x].Definition.MeshScale|The scale of the mesh.|
 |FoliageResource[x].Definition.WindStrength|Creates some movement for the mesh. The default value is 0.1.|
 |FoliageResource[x].Definition.NoiseTexture|This texture makes sure that the foliage placement is not too straight. If not specified, the default noise texture will be used.|
 |FoliageResource[x].Definition.VisualInstanceLayers|The godot layer on which the foliage will be displayed.|
