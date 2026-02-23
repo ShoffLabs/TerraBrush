@@ -224,7 +224,7 @@ This was designed this way to avoid spamming the properties of the terrain to up
 |FoliageResource[x].Definition.MeshScale|The scale of the mesh.|
 |FoliageResource[x].Definition.MeshRotationBase|The base Y-direction our foliage will face.|
 |FoliageResource[x].Definition.MeshRotationRandomSpin|The max amount of rotation variance of MeshRotationBase.|
-|FoliageResource[x].Definition.UseWind2D|Whether to use our custom 2D grass noise, or the TerraBrush default.|
+|FoliageResource[x].Definition.UseWind2D|Whether to use our custom 2D grass noise, or the TerraBrush default. NOTE: Be sure to subdivide the grass foliage mesh by 2 to get that nice curved grass.|
 |FoliageResource[x].Definition.Wind2DNoiseTexture|Wind2D only. 2D noise texture to use.|
 |FoliageResource[x].Definition.Wind2dVelocity|Wind2D only. X&Z wind velocity.|
 |FoliageResource[x].Definition.MeshScale|The scale of the mesh.|

@@ -164,7 +164,7 @@ vec3 wind_2d(vec2 uv, vec3 worldPosition){
 }
 
 // The default wind algorithm that comes with TerraBrush.
-vec3 default_wind(inout vec3 vertex, vec3 particlePosition, float randomValue){
+void default_wind(inout vec3 vertex, vec3 particlePosition, float randomValue){
 	float windDirection = 0.0;
 	if (randomValue > 0.5) {
 		windDirection = sin(TIME);
@@ -173,8 +173,9 @@ vec3 default_wind(inout vec3 vertex, vec3 particlePosition, float randomValue){
 	}
 	windDirection *= randomValue * WindStrength;
 	vertex = ((vertex - particlePosition) * rotateX(windDirection)) + particlePosition;
+}
 
-void calculateFoliageVertex(int instanceID, inout vec3 vertex, inout vec3 normal, inout vec4 color, out vec3 instancePosition) {
+void calculateFoliageVertex(vec2 uv, int instanceID, inout vec3 vertex, inout vec3 normal, inout vec4 color, out vec3 instancePosition) {
 	// Compute the clipmap INDEX position
 	int currentIndex = instanceID;
 
@@ -337,9 +338,9 @@ void calculateFoliageVertex(int instanceID, inout vec3 vertex, inout vec3 normal
 
 				// Make the foliage wave with wind
 				if (UseWind2D) {
-					vertex += wind_2d(instancePosition, worldVertex);
+					vertex += wind_2d(uv, particlePosition);
 				} else {
-					default_wind(vertex, instancePosition, randomValue);
+					default_wind(vertex, particlePosition, randomValue);
 				}
 
 				// Apply random rotation to each foliage

@@ -8,6 +8,7 @@ varying flat vec3 _instancePosition;
 void vertex() {
 	_instancePosition = vec3(0);
 	calculateFoliageVertex(
+		UV,
 		INSTANCE_ID,
 		VERTEX,
 		NORMAL,
