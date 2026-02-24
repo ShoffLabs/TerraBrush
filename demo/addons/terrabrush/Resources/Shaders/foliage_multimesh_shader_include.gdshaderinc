@@ -147,7 +147,7 @@ vec4 calculateGroundColor(vec3 zoneUV) {
 // Wind functions:
 
 float _wind_noise(vec3 worldPosition){
-	float value = texture(Wind2DNoiseTexture, (worldPosition.xz*0.03) - (vec2(TIME * 0.01) * Wind2dVelocity)).r;
+	float value = texture(Wind2DNoiseTexture, (worldPosition.xz*0.03) - (vec2(TIME * 0.03) * Wind2dVelocity)).r;
 	return value;
 }
 
