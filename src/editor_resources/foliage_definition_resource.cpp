@@ -26,6 +26,10 @@ void FoliageDefinitionResource::_bind_methods() {
     ClassDB::bind_method(D_METHOD("set_meshRotationRandomSpin", "value"), &FoliageDefinitionResource::set_meshRotationRandomSpin);
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "meshRotationRandomSpin", PROPERTY_HINT_RANGE, "0,360"), "set_meshRotationRandomSpin", "get_meshRotationRandomSpin");
 
+    ClassDB::bind_method(D_METHOD("get_grassShading"), &FoliageDefinitionResource::get_grassShading);
+    ClassDB::bind_method(D_METHOD("set_grassShading", "value"), &FoliageDefinitionResource::set_grassShading);
+    ADD_PROPERTY(PropertyInfo(Variant::VECTOR3, "grassShading", PROPERTY_HINT_COLOR), "set_grassShading", "get_grassShading");
+
     ClassDB::bind_method(D_METHOD("get_useWind2D"), &FoliageDefinitionResource::get_useWind2D);
     ClassDB::bind_method(D_METHOD("set_useWind2D", "value"), &FoliageDefinitionResource::set_useWind2D);
     ADD_PROPERTY(PropertyInfo(Variant::BOOL, "useWind2D"), "set_useWind2D", "get_useWind2D");
@@ -121,6 +125,7 @@ FoliageDefinitionResource::FoliageDefinitionResource() {
     _meshScale = Vector3(1.0, 1.0, 1.0);
     _meshRotationBase = 0.0;
     _meshRotationRandomSpin = 360.0;
+    _grassShading = Vector3(0.0, 0.0, 0.0);
     _useWind2D = false;
     _wind2DNoiseTexture = Ref<Texture2D>(nullptr);
     _wind2dVelocity = Vector2(0, 0);
@@ -151,6 +156,7 @@ void FoliageDefinitionResource::_validate_property(PropertyInfo &property) const
     static const TypedArray<StringName> MultimeshProperties = {
         "meshRotationBase",
         "meshRotationRandomSpin",
+        "grassShading",
         "useWind2D",
         "wind2DNoiseTexture",
         "wind2dVelocity",
@@ -248,6 +254,13 @@ float FoliageDefinitionResource::get_meshRotationRandomSpin() const {
 }
 void FoliageDefinitionResource::set_meshRotationRandomSpin(const float value) {
     _meshRotationRandomSpin = value;
+}
+
+Vector3 FoliageDefinitionResource::get_grassShading() const {
+    return _grassShading;
+}
+void FoliageDefinitionResource::set_grassShading(const Vector3 value) {
+    _grassShading = value;
 }
 
 bool FoliageDefinitionResource::get_useWind2D() const {

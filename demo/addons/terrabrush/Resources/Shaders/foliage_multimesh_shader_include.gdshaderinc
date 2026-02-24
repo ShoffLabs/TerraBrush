@@ -23,6 +23,14 @@ uniform bool applyRandomMeshRotation = true;
 uniform float MeshRotationBase: hint_range(-180.0, 180.0) = 0.0;
 /** Determine how much random spin to apply to the foliage mesh base rotation. The higher the value, the higher the variation. */
 uniform float MeshRotationRandomSpin: hint_range(0.0, 360.0) = 360.0;
+/**
+The amount of fake shading to apply to foliage. They should all be some small value, e.g. (0.17, 0.19, 0.17).
+
+NOTE: The y (g) value is slightly greater than the x(r) and z(b) values because the human eye is more sensitive
+  to changes in the green channel, so we can create a better illusion of fake shading by applying a slightly
+  stronger shading on the green channel. Note the purple shift in pixel art (higher R & B values).
+*/
+uniform vec3 GrassShading = vec3(0.0, 0.0, 0.0);
 
 group_uniforms Wind2D;
 /** Whether to use the Wind2D algorithm. If false, use the default TerraBrush wind. */
@@ -370,7 +378,10 @@ void calculateFoliageFragment(vec2 uv, vec4 color, vec3 instancePosition, out ve
 		albedoTexture = NearestFilter ? texture(FoliageAlbedoTexturesNearest, vec3(uv.x, uv.y, randomTexture)) : texture(FoliageAlbedoTextures, vec3(uv.x, uv.y, randomTexture));
 	}
 
-	albedo = color.rgb * albedoTexture.rgb * FoliageAlbedo.rgb;
+	vec3 albedoTop = color.rgb * albedoTexture.rgb * FoliageAlbedo.rgb; // Our original color, if no shading.
+	vec3 albedoBottom = albedoTop - GrassShading; // The color with the fake shading applied.
+
+	albedo = mix(albedoTop, albedoBottom, uv.y);
 	alpha = FoliageAlbedo.a * albedoTexture.a;
 	alphaScissorThreshold = 0.01;
 	alphaAntiAliasingEdge = 0.5;

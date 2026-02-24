@@ -19,16 +19,17 @@ private:
     FoliageStrategy _strategy = FoliageStrategy::FOLIAGESTRATEGY_MULTIMESH;
     Ref<Mesh> _mesh = nullptr;
     Vector3 _meshScale = Vector3();
-    float _meshRotationBase = 0;
-    float _meshRotationRandomSpin = 0;
-    bool _useWind2D = false;
-    Ref<Texture2D> _wind2DNoiseTexture = nullptr;
-    Vector2 _wind2dVelocity = Vector2();
-    float _windStrength = 0;
     Ref<Texture2D> _noiseTexture = nullptr;
     int _visualInstanceLayers = 0;
 
     // _multimesh settings
+    float _meshRotationBase = 0;
+    float _meshRotationRandomSpin = 0;
+    Vector3 _grassShading = Vector3();
+    bool _useWind2D = false;
+    Ref<Texture2D> _wind2DNoiseTexture = nullptr;
+    Vector2 _wind2dVelocity = Vector2();
+    float _windStrength = 0;
     int _lodLevels = 0;
     int _lodRowsPerLevel = 0;
     float _lodInitialCellWidth = 0;
@@ -80,6 +81,9 @@ public:
 
     float get_meshRotationRandomSpin() const;
     void set_meshRotationRandomSpin(const float value);
+
+    Vector3 get_grassShading() const;
+    void set_grassShading(const Vector3 value);
 
     bool get_useWind2D() const;
     void set_useWind2D(const bool value);

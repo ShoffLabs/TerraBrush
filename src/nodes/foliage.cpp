@@ -180,6 +180,8 @@ void Foliage::updateFoliage() {
         _foliageShader->set_shader_parameter(StringNames::MeshRotationBase(), _definition->get_meshRotationBase());
         _foliageShader->set_shader_parameter(StringNames::MeshRotationRandomSpin(), _definition->get_meshRotationRandomSpin());
 
+        _foliageShader->set_shader_parameter(StringNames::GrassShading(), _definition->get_grassShading());
+
         _foliageShader->set_shader_parameter(StringNames::UseWind2D(), _definition->get_useWind2D());
         _foliageShader->set_shader_parameter(StringNames::Wind2DNoiseTexture(), _definition->get_wind2DNoiseTexture());
         _foliageShader->set_shader_parameter(StringNames::Wind2dVelocity(), _definition->get_wind2dVelocity());

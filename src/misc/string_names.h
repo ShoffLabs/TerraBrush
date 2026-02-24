@@ -20,6 +20,7 @@ class StringNames {
         const static StringName MeshScale();
         const static StringName MeshRotationBase();
         const static StringName MeshRotationRandomSpin();
+        const static StringName GrassShading();
         const static StringName UseWind2D();
         const static StringName Wind2DNoiseTexture();
         const static StringName Wind2dVelocity();
