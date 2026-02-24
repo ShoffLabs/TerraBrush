@@ -28,7 +28,7 @@ void FoliageDefinitionResource::_bind_methods() {
 
     ClassDB::bind_method(D_METHOD("get_grassShading"), &FoliageDefinitionResource::get_grassShading);
     ClassDB::bind_method(D_METHOD("set_grassShading", "value"), &FoliageDefinitionResource::set_grassShading);
-    ADD_PROPERTY(PropertyInfo(Variant::VECTOR3, "grassShading", PROPERTY_HINT_COLOR), "set_grassShading", "get_grassShading");
+    ADD_PROPERTY(PropertyInfo(Variant::VECTOR3, "grassShading", PROPERTY_HINT_LINK), "set_grassShading", "get_grassShading");
 
     ClassDB::bind_method(D_METHOD("get_useWind2D"), &FoliageDefinitionResource::get_useWind2D);
     ClassDB::bind_method(D_METHOD("set_useWind2D", "value"), &FoliageDefinitionResource::set_useWind2D);
