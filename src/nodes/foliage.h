@@ -59,7 +59,7 @@ public:
 	void set_textureDetail(const int value);
     void set_waterFactor(const float value);
     void set_definition(const Ref<FoliageDefinitionResource> &value);
-    void set_lodEpicenter(Node3D *value);
+    void set_lodEpicenter(const Node3D *value);
 
     void updateAABB();
     void updateEditorCameraPosition(Camera3D *viewportCamera);
