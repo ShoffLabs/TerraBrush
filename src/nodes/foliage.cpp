@@ -86,7 +86,7 @@ void Foliage::_ready() {
 void Foliage::_process(double delta) {
     if (!Engine::get_singleton()->is_editor_hint()) {
         Vector3 position = Vector3(0, 0, 0);
-        if (_lodEpicenter.is_valid()) {
+        if (_lodEpicenter != nullptr) {
             position = _lodEpicenter->get_global_position();
         } else if (get_viewport() != nullptr && get_viewport()->get_camera_3d() != nullptr) {
             position = get_viewport()->get_camera_3d()->get_global_position();
