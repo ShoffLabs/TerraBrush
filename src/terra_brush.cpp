@@ -345,7 +345,7 @@ void TerraBrush::set_collisionOnly(const bool value) {
     _collisionOnly = value;
 }
 
-bool TerraBrush::get_lodEpicenter() const {
+Ref<Node3D> TerraBrush::get_lodEpicenter() const {
     return _lodEpicenter;
 }
 void TerraBrush::set_lodEpicenter(const Ref<Node3D> &value) {
@@ -592,7 +592,6 @@ void TerraBrush::loadTerrain() {
     _terrain->set_createCollisionInThread(_createCollisionInThread);
     _terrain->set_showMetaInfo(_showMetaInfo);
     _terrain->set_metaInfoLayers(_metaInfoLayers);
-    _terrain->set_lodEpicenter(_lodEpicenter);
 
     // This is attached to emit the initialized event
     _terrain->connect(StringNames::TerrainCollisionUpdated(), Callable(this, "onTerrainCollisionUpdated"));
