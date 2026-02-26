@@ -345,10 +345,10 @@ void TerraBrush::set_collisionOnly(const bool value) {
     _collisionOnly = value;
 }
 
-Ref<Node3D> TerraBrush::get_lodEpicenter() const {
+Node3D *TerraBrush::get_lodEpicenter() const {
     return _lodEpicenter;
 }
-void TerraBrush::set_lodEpicenter(const Ref<Node3D> &value) {
+void TerraBrush::set_lodEpicenter(const Node3D *value) {
     _lodEpicenter = value;
 }
 
