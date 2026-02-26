@@ -19,7 +19,8 @@
 
 using namespace godot;
 
-class TerraBrush : public Node3D {
+class TerraBrush : public Node3D
+{
     GDCLASS(TerraBrush, Node3D);
 
 private:
@@ -44,6 +45,12 @@ private:
     int _zonesSize = 0;
     int _resolution = 0;
     bool _collisionOnly = false;
+    /**
+     * For lod calculations, such as foliage, treat this node as the center instead of the camera.
+     * If this is undefined, the camera will be used as the center.
+     * The best use case for this is a third person game where the player is not the camera, but you still want to have the LOD centered around the player.
+     * */
+    Ref<Node3D> _lodEpicenter = nullptr;
     int _visualInstanceLayers = 0;
     Ref<ShaderMaterial> _customShader = nullptr;
 
@@ -118,6 +125,9 @@ public:
 
     bool get_collisionOnly() const;
     void set_collisionOnly(const bool value);
+
+    Ref<Node3D> get_lodEpicenter() const;
+    void set_lodEpicenter(const Ref<Node3D> &value);
 
     int get_visualInstanceLayers() const;
     void set_visualInstanceLayers(const int value);

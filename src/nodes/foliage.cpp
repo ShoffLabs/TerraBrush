@@ -86,7 +86,9 @@ void Foliage::_ready() {
 void Foliage::_process(double delta) {
     if (!Engine::get_singleton()->is_editor_hint()) {
         Vector3 position = Vector3(0, 0, 0);
-        if (get_viewport() != nullptr && get_viewport()->get_camera_3d() != nullptr) {
+        if (_lodEpicenter.is_valid()) {
+            position = _lodEpicenter->get_global_position();
+        } else if (get_viewport() != nullptr && get_viewport()->get_camera_3d() != nullptr) {
             position = get_viewport()->get_camera_3d()->get_global_position();
         }
 
@@ -124,6 +126,10 @@ void Foliage::set_waterFactor(const float value) {
 
 void Foliage::set_definition(const Ref<FoliageDefinitionResource> &value) {
     _definition = value;
+}
+
+void Foliage::set_lodEpicenter(const Ref<Node3D> &value) {
+    _lodEpicenter = value;
 }
 
 void Foliage::updateFoliage() {

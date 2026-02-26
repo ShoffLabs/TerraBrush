@@ -55,6 +55,10 @@ void TerraBrush::_bind_methods() {
     ClassDB::bind_method(D_METHOD("set_collisionOnly", "value"), &TerraBrush::set_collisionOnly);
     ADD_PROPERTY(PropertyInfo(Variant::BOOL, "collisionOnly"), "set_collisionOnly", "get_collisionOnly");
 
+    ClassDB::bind_method(D_METHOD("get_lodEpicenter"), &TerraBrush::get_lodEpicenter);
+    ClassDB::bind_method(D_METHOD("set_lodEpicenter", "value"), &TerraBrush::set_lodEpicenter);
+    ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "lodEpicenter", PROPERTY_HINT_RESOURCE_TYPE, "Node3D"), "set_lodEpicenter", "get_lodEpicenter");
+
     ClassDB::bind_method(D_METHOD("get_visualInstanceLayers"), &TerraBrush::get_visualInstanceLayers);
     ClassDB::bind_method(D_METHOD("set_visualInstanceLayers", "value"), &TerraBrush::set_visualInstanceLayers);
     ADD_PROPERTY(PropertyInfo(Variant::INT, "visualInstanceLayers", PROPERTY_HINT_LAYERS_3D_RENDER), "set_visualInstanceLayers", "get_visualInstanceLayers");
@@ -190,6 +194,7 @@ TerraBrush::TerraBrush() {
     _zonesSize = 256;
     _resolution = 1;
     _collisionOnly = false;
+    _lodEpicenter = Ref<Node3D>(nullptr);
     _visualInstanceLayers = 1;
     _customShader = Ref<ShaderMaterial>(nullptr);
 
@@ -338,6 +343,13 @@ bool TerraBrush::get_collisionOnly() const {
 }
 void TerraBrush::set_collisionOnly(const bool value) {
     _collisionOnly = value;
+}
+
+bool TerraBrush::get_lodEpicenter() const {
+    return _lodEpicenter;
+}
+void TerraBrush::set_lodEpicenter(const Ref<Node3D> &value) {
+    _lodEpicenter = value;
 }
 
 int TerraBrush::get_visualInstanceLayers() const {
@@ -580,6 +592,7 @@ void TerraBrush::loadTerrain() {
     _terrain->set_createCollisionInThread(_createCollisionInThread);
     _terrain->set_showMetaInfo(_showMetaInfo);
     _terrain->set_metaInfoLayers(_metaInfoLayers);
+    _terrain->set_lodEpicenter(_lodEpicenter);
 
     // This is attached to emit the initialized event
     _terrain->connect(StringNames::TerrainCollisionUpdated(), Callable(this, "onTerrainCollisionUpdated"));
@@ -645,6 +658,7 @@ void TerraBrush::createFoliages() {
             newFoliage->set_textureDetail(_textureDetail);
             newFoliage->set_waterFactor(_waterDefinition.is_null() ? 0 : _waterDefinition->get_waterFactor());
             newFoliage->set_definition(foliage->get_definition());
+            newFoliage->set_lodEpicenter(_lodEpicenter);
 
             _foliagesNode->add_child(newFoliage);
         }

@@ -33,6 +33,8 @@ private:
 	int _textureDetail = 0;
     float _waterFactor = 0;
     Ref<FoliageDefinitionResource> _definition = nullptr;
+    /** Foliage spawn epicenter, as defined in the Terrain3D node. */
+    Ref<Node3D> _lodEpicenter = nullptr;
 
     void updateFoliage();
     void updateFoliagePosition(Vector3 position);
@@ -57,6 +59,7 @@ public:
 	void set_textureDetail(const int value);
     void set_waterFactor(const float value);
     void set_definition(const Ref<FoliageDefinitionResource> &value);
+    void set_lodEpicenter(const Ref<Node3D> &value);
 
     void updateAABB();
     void updateEditorCameraPosition(Camera3D *viewportCamera);
