@@ -128,7 +128,7 @@ void Foliage::set_definition(const Ref<FoliageDefinitionResource> &value) {
     _definition = value;
 }
 
-void Foliage::set_lodEpicenter(const Ref<Node3D> &value) {
+void Foliage::set_lodEpicenter(const Node3D *value) {
     _lodEpicenter = value;
 }
 
