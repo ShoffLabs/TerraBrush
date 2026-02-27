@@ -50,7 +50,6 @@ private:
      * The best use case for this is a third person game where the player is not the camera, but you still want to have the LOD centered around the player.
      * */
     NodePath _lodEpicenterPath = NodePath("");
-    Node3D *_lodEpicenterNode = nullptr; // Privately used to resolve & store the actual node.
     int _visualInstanceLayers = 0;
     Ref<ShaderMaterial> _customShader = nullptr;
 
@@ -127,7 +126,7 @@ public:
     void set_collisionOnly(const bool value);
 
     NodePath get_lodEpicenterPath() const;
-    void set_lodEpicenterPath(const NodePath &value);
+    void set_lodEpicenterPath(const NodePath value);
 
     int get_visualInstanceLayers() const;
     void set_visualInstanceLayers(const int value);

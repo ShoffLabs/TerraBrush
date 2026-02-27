@@ -348,9 +348,8 @@ void TerraBrush::set_collisionOnly(const bool value) {
 NodePath TerraBrush::get_lodEpicenterPath() const {
     return _lodEpicenterPath;
 }
-void TerraBrush::set_lodEpicenterPath(const NodePath &value) {
+void TerraBrush::set_lodEpicenterPath(const NodePath value) {
     _lodEpicenterPath = value;
-    _lodEpicenterNode = value.is_empty() ? nullptr : Object::cast_to<Node3D>(get_node_or_null(value));
 }
 
 int TerraBrush::get_visualInstanceLayers() const {
@@ -658,7 +657,7 @@ void TerraBrush::createFoliages() {
             newFoliage->set_textureDetail(_textureDetail);
             newFoliage->set_waterFactor(_waterDefinition.is_null() ? 0 : _waterDefinition->get_waterFactor());
             newFoliage->set_definition(foliage->get_definition());
-            newFoliage->set_lodEpicenterNode(_lodEpicenterNode);
+            newFoliage->set_lodEpicenterPath(_lodEpicenterPath);
 
             _foliagesNode->add_child(newFoliage);
         }

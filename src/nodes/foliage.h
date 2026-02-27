@@ -34,7 +34,7 @@ private:
     float _waterFactor = 0;
     Ref<FoliageDefinitionResource> _definition = nullptr;
     /** We'll lazily get the lodEpicenterNode & store it here to avoid the resolution process every frame. */
-    Node3D *_lodEpicenterNode = nullptr;
+    NodePath _lodEpicenterPath = NodePath("");
 
     void updateFoliage();
     void updateFoliagePosition(Vector3 position);
@@ -59,7 +59,7 @@ public:
 	void set_textureDetail(const int value);
     void set_waterFactor(const float value);
     void set_definition(const Ref<FoliageDefinitionResource> &value);
-    void set_lodEpicenterNode(const Node3D *value);
+    void set_lodEpicenterPath(const NodePath &value);
 
     void updateAABB();
     void updateEditorCameraPosition(Camera3D *viewportCamera);
