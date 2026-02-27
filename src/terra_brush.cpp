@@ -194,7 +194,7 @@ TerraBrush::TerraBrush() {
     _zonesSize = 256;
     _resolution = 1;
     _collisionOnly = false;
-    _lodEpicenter = Ref<Node3D>(nullptr);
+    _lodEpicenter = nullptr;
     _visualInstanceLayers = 1;
     _customShader = Ref<ShaderMaterial>(nullptr);
 
@@ -349,7 +349,7 @@ Node3D *TerraBrush::get_lodEpicenter() const {
     return _lodEpicenter;
 }
 void TerraBrush::set_lodEpicenter(const Node3D *value) {
-    _lodEpicenter = value;
+    _lodEpicenter = const_cast<Node3D*>(value);
 }
 
 int TerraBrush::get_visualInstanceLayers() const {
