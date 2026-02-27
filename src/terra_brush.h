@@ -19,8 +19,7 @@
 
 using namespace godot;
 
-class TerraBrush : public Node3D
-{
+class TerraBrush : public Node3D {
     GDCLASS(TerraBrush, Node3D);
 
 private:
@@ -50,7 +49,8 @@ private:
      * If this is undefined, the camera will be used as the center.
      * The best use case for this is a third person game where the player is not the camera, but you still want to have the LOD centered around the player.
      * */
-    Node3D *_lodEpicenter = nullptr;
+    NodePath _lodEpicenterPath = NodePath("");
+    Node3D *_lodEpicenterNode = nullptr; // Privately used to resolve & store the actual node.
     int _visualInstanceLayers = 0;
     Ref<ShaderMaterial> _customShader = nullptr;
 
@@ -126,8 +126,8 @@ public:
     bool get_collisionOnly() const;
     void set_collisionOnly(const bool value);
 
-    Node3D *get_lodEpicenter() const;
-    void set_lodEpicenter(const Node3D *value);
+    NodePath get_lodEpicenterPath() const;
+    void set_lodEpicenterPath(const NodePath &value);
 
     int get_visualInstanceLayers() const;
     void set_visualInstanceLayers(const int value);

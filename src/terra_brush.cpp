@@ -55,10 +55,6 @@ void TerraBrush::_bind_methods() {
     ClassDB::bind_method(D_METHOD("set_collisionOnly", "value"), &TerraBrush::set_collisionOnly);
     ADD_PROPERTY(PropertyInfo(Variant::BOOL, "collisionOnly"), "set_collisionOnly", "get_collisionOnly");
 
-    ClassDB::bind_method(D_METHOD("get_lodEpicenter"), &TerraBrush::get_lodEpicenter);
-    ClassDB::bind_method(D_METHOD("set_lodEpicenter", "value"), &TerraBrush::set_lodEpicenter);
-    ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "lodEpicenter", PROPERTY_HINT_RESOURCE_TYPE, "Node3D"), "set_lodEpicenter", "get_lodEpicenter");
-
     ClassDB::bind_method(D_METHOD("get_visualInstanceLayers"), &TerraBrush::get_visualInstanceLayers);
     ClassDB::bind_method(D_METHOD("set_visualInstanceLayers", "value"), &TerraBrush::set_visualInstanceLayers);
     ADD_PROPERTY(PropertyInfo(Variant::INT, "visualInstanceLayers", PROPERTY_HINT_LAYERS_3D_RENDER), "set_visualInstanceLayers", "get_visualInstanceLayers");
@@ -68,6 +64,10 @@ void TerraBrush::_bind_methods() {
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "customShader", PROPERTY_HINT_RESOURCE_TYPE, "ShaderMaterial"), "set_customShader", "get_customShader");
 
     ADD_GROUP("LOD", "");
+
+    ClassDB::bind_method(D_METHOD("get_lodEpicenterPath"), &TerraBrush::get_lodEpicenterPath);
+    ClassDB::bind_method(D_METHOD("set_lodEpicenterPath", "value"), &TerraBrush::set_lodEpicenterPath);
+    ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "lodEpicenterPath", PROPERTY_HINT_RESOURCE_TYPE, "Node3D"), "set_lodEpicenterPath", "get_lodEpicenterPath");
 
     ClassDB::bind_method(D_METHOD("get_lodLevels"), &TerraBrush::get_lodLevels);
     ClassDB::bind_method(D_METHOD("set_lodLevels", "value"), &TerraBrush::set_lodLevels);
@@ -194,7 +194,7 @@ TerraBrush::TerraBrush() {
     _zonesSize = 256;
     _resolution = 1;
     _collisionOnly = false;
-    _lodEpicenter = nullptr;
+    _lodEpicenterPath = NodePath("");
     _visualInstanceLayers = 1;
     _customShader = Ref<ShaderMaterial>(nullptr);
 
@@ -345,11 +345,12 @@ void TerraBrush::set_collisionOnly(const bool value) {
     _collisionOnly = value;
 }
 
-Node3D *TerraBrush::get_lodEpicenter() const {
-    return _lodEpicenter;
+NodePath TerraBrush::get_lodEpicenterPath() const {
+    return _lodEpicenterPath;
 }
-void TerraBrush::set_lodEpicenter(const Node3D *value) {
-    _lodEpicenter = const_cast<Node3D*>(value);
+void TerraBrush::set_lodEpicenterPath(const NodePath &value) {
+    _lodEpicenterPath = value;
+    _lodEpicenterNode = value.is_empty() ? nullptr : Object::cast_to<Node3D>(get_node_or_null(value));
 }
 
 int TerraBrush::get_visualInstanceLayers() const {
@@ -657,7 +658,7 @@ void TerraBrush::createFoliages() {
             newFoliage->set_textureDetail(_textureDetail);
             newFoliage->set_waterFactor(_waterDefinition.is_null() ? 0 : _waterDefinition->get_waterFactor());
             newFoliage->set_definition(foliage->get_definition());
-            newFoliage->set_lodEpicenter(_lodEpicenter);
+            newFoliage->set_lodEpicenterNode(_lodEpicenterNode);
 
             _foliagesNode->add_child(newFoliage);
         }

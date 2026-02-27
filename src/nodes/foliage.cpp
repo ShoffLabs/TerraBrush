@@ -86,8 +86,8 @@ void Foliage::_ready() {
 void Foliage::_process(double delta) {
     if (!Engine::get_singleton()->is_editor_hint()) {
         Vector3 position = Vector3(0, 0, 0);
-        if (_lodEpicenter != nullptr) {
-            position = _lodEpicenter->get_global_position();
+        if (_lodEpicenterNode != nullptr) {
+            position = _lodEpicenterNode->get_global_position();
         } else if (get_viewport() != nullptr && get_viewport()->get_camera_3d() != nullptr) {
             position = get_viewport()->get_camera_3d()->get_global_position();
         }
@@ -128,8 +128,8 @@ void Foliage::set_definition(const Ref<FoliageDefinitionResource> &value) {
     _definition = value;
 }
 
-void Foliage::set_lodEpicenter(const Node3D *value) {
-    _lodEpicenter = const_cast<Node3D*>(value);
+void Foliage::set_lodEpicenterNode(const Node3D *value) {
+    _lodEpicenterNode = const_cast<Node3D*>(value);
 }
 
 void Foliage::updateFoliage() {
