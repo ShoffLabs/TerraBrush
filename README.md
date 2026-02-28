@@ -35,6 +35,7 @@
   - Added foliage rotation settings so they can face the same direction (for fixed camera pixel-art game).
   - Added foliage wind settings for more stylized wind.
   - Added foliage shading setting for more detailed grass.
+  - Added an `Lod Epicenter Path` property to `TerraBrush` to render foliage around a different node, e.g. Player, rather than the camera.
 
 ## Disclaimer
 
@@ -193,6 +194,7 @@ This was designed this way to avoid spamming the properties of the terrain to up
 |Import Terrain|Import terrain components from various images.|
 |Export Terrain|Export all components of the terrain to images.|
 |**LOD**||
+|LOD Epicenter Path|Path to the node to center foliage, etc. rendering around. This is for games where the camera is not at the same 3D Position as the player, such as 3rd person or RTS games. NOTE: It's best to set this as the full path to the node, e.g. /root/World/Player. If undefined, the camera will be used.
 |LOD Levels|The number of levels the clipmap will be made of. The default value is 5.|
 |LOD Rows Per Level|The number of rows per level. This is a base number, depending on the level, there might be more rows (ex. the first level is a little bit different so it has more cells). The default value is 101.|
 |LOD Initial Cell Width|The initial size of the cell. Each level will double the size of the previous level cell' size. the default value is 1.0 (1 meter)|
