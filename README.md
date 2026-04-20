@@ -67,11 +67,12 @@ It runs in the browser, hosted on itch.io :
 * **Paint color** - Add colors to your terrain
 * **Paint textures** - Add textures to your terrain with the painting tool
   - Normal map and roughness texture are supported
+  - Automatic slope based texturing
 * **Foliage** - Add foliage to your terrain (ex. Grass)
   - The foliage follows the main camera with a given maximum distance
 * **Packed scenes** - Scatter packed scenes to the terrain
   - Multiple objects can be scattered with one brush
-  - Random Y rotation is supported
+  - Random rotation is supported
   - The packed scenes will always follow the terrain
   - Live adjustment of the position while the terrain is sculpting
 * **Water** - Add water to your terrain
@@ -217,6 +218,9 @@ This was designed this way to avoid spamming the properties of the terrain to up
 |Albedo Alpha Channel Usage|Allow the use of the alpha channel of the albedo texture for either roughness or height. The default value is none.|
 |Normal Alpha Channel Usage|Allow the use of the alpha channel of the normal texture for either roughness or height. The default value is none.|
 |Use Sharp Transitions|Use sharp transition between textures instead of blending them together. This will use the most dominant texture.|
+|Slope Texturing|Enable the slope based texturing.|
+|Slope Texture Index|The index of the texture that will be painted when slope is detected. The default value is 1, as the second texture.|
+|Slope Texture Threshold|The Threshold to check if the ground is considered a slope (the dot product of the normal >= Threshold). The default value is 0.2.|
 |**Foliage**||
 |Foliages|An array of FoliageResource. **Make sure to hit the update terrain button when you modify this and the terrain has already been created**.|
 |FoliageResource[x].Definition|The definition of the foliage. Create a **FoliageDefinitionResource** to use it. You can create a resource of this definition to reuse it in other terrain.|
@@ -258,7 +262,9 @@ This was designed this way to avoid spamming the properties of the terrain to up
 |ObjectResource[x].Definition.ObjectFrequency|This option overrides the **Default Object Frequency** property if a value higher than -1 is set. This option is to define how often the objects will be placed on the terrain. For example, a value of 10 will place an object every 10 meters. The default value is 10.|
 |ObjectResource[x].Definition.RandomRange|The range from which the random placement will be added from the original grid position.|
 |ObjectResource[x].Definition.NoiseTexture|This texture makes sure that the object placement is not too straight. If not specified, the default noise texture will be used.|
-|ObjectResource[x].Definition.RandomYRotation|This allows the objects to be rotated randomly on the Y axis.|
+|ObjectResource[x].Definition.RandomRotation|This allows the objects to be rotated randomly.|
+|ObjectResource[x].Definition.RandomRotationMin|The minimum rotation value when the random rotation is enabled.|
+|ObjectResource[x].Definition.RandomRotationMax|The maximum rotation value when the random rotation is enabled.|
 |ObjectResource[x].Definition.RandomSize|This allows the objects to be sized randomly.|
 |ObjectResource[x].Definition.RandomSizeFactorMin|The minimum factor that will be multiplied with the scale of the object.|
 |ObjectResource[x].Definition.RandomSizeFactorMax|The maximum factor that will be multiplied with the scale of the object.|
@@ -444,6 +450,35 @@ if collider != null:
   if shape != null:
     var objectId: int = shape.get_meta("TerraBrush_OctreeNodeInfo_Id")
     $TerraBrush.hideObject(0, objectId)
+```
+
+#### Generate a heightmap with code
+
+You can easily create a heightmap with code with TerraBrush (even at runtime).
+You only have to generate an image that represent that heightmap (with FORMAT_RGF) and assign it to the zones of the terrain.
+
+```gdscript
+var noise = FastNoiseLite.new()
+noise.noise_type = FastNoiseLite.TYPE_PERLIN
+noise.frequency = 0.05
+noise.seed = randi()
+
+# 256 is the ZonesSize
+var image = Image.create(256, 256, false, Image.FORMAT_RGF)
+
+for x in range(image.get_width()):
+for y in range(image.get_height()):
+    var height_value = noise.get_noise_2d(x, y)
+    # Multiply the height by 10.0
+    height_value *= 10.0
+    image.set_pixel(x, y, Color(height_value, 0.0, 0.0, 0.0))
+
+var terrainZones = ZonesResource.new()
+var zone = ZoneResource.new()
+zone.heightMapImage = image
+terrainZones.zones = [zone]
+%TerraBrush.terrainZones = terrainZones
+%TerraBrush.onUpdateTerrainSettings()
 ```
 
 ### Navigation mesh
