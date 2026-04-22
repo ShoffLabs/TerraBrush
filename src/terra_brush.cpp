@@ -65,6 +65,10 @@ void TerraBrush::_bind_methods() {
 
     ADD_GROUP("LOD", "");
 
+    ClassDB::bind_method(D_METHOD("get_lodEpicenterPath"), &TerraBrush::get_lodEpicenterPath);
+    ClassDB::bind_method(D_METHOD("set_lodEpicenterPath", "value"), &TerraBrush::set_lodEpicenterPath);
+    ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "lodEpicenterPath", PROPERTY_HINT_RESOURCE_TYPE, "Node3D"), "set_lodEpicenterPath", "get_lodEpicenterPath");
+
     ClassDB::bind_method(D_METHOD("get_lodLevels"), &TerraBrush::get_lodLevels);
     ClassDB::bind_method(D_METHOD("set_lodLevels", "value"), &TerraBrush::set_lodLevels);
     ADD_PROPERTY(PropertyInfo(Variant::INT, "lodLevels"), "set_lodLevels", "get_lodLevels");
@@ -202,6 +206,7 @@ TerraBrush::TerraBrush() {
     _zonesSize = 256;
     _resolution = 1;
     _collisionOnly = false;
+    _lodEpicenterPath = NodePath("");
     _visualInstanceLayers = 1;
     _customShader = Ref<ShaderMaterial>(nullptr);
 
@@ -360,6 +365,13 @@ bool TerraBrush::get_collisionOnly() const {
 }
 void TerraBrush::set_collisionOnly(const bool value) {
     _collisionOnly = value;
+}
+
+NodePath TerraBrush::get_lodEpicenterPath() const {
+    return _lodEpicenterPath;
+}
+void TerraBrush::set_lodEpicenterPath(const NodePath value) {
+    _lodEpicenterPath = value;
 }
 
 int TerraBrush::get_visualInstanceLayers() const {
@@ -693,6 +705,7 @@ void TerraBrush::createFoliages() {
             newFoliage->set_textureDetail(_textureDetail);
             newFoliage->set_waterFactor(_waterDefinition.is_null() ? 0 : _waterDefinition->get_waterFactor());
             newFoliage->set_definition(foliage->get_definition());
+            newFoliage->set_lodEpicenterPath(_lodEpicenterPath);
 
             _foliagesNode->add_child(newFoliage);
         }
