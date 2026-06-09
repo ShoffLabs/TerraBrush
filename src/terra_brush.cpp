@@ -1064,17 +1064,6 @@ void TerraBrush::addInteractionPoint(float x, float y) {
     }
 }
 
-float TerraBrush::getSlopeAtPosition(float x, float y) {
-	float hL = getHeightAtPosition(x - 1.0, y, false);
-	float hR = getHeightAtPosition(x + 1.0, y, false);
-	float hB = getHeightAtPosition(x, y - 1.0, false);
-	float hF = getHeightAtPosition(x, y + 1.0, false);
-
-    Vector3 normal = Vector3(hL - hR, 2.0, hB - hF).normalized();
-
-    return 1.0 - normal.dot(Vector3(0.0, 1.0, 0.0));
-}
-
 Ref<TerrainPositionInformation> TerraBrush::getPositionInformation(float x, float y) {
     float globalX = x;
     float globalY = y;
@@ -1296,9 +1285,18 @@ float TerraBrush::getHeightAtPosition(float x, float z, bool useGlobalPosition) 
     }
 
     ZoneInfo zoneInfo = ZoneUtils::getPixelToZoneInfo(x + (zoneSize / 2), z + (zoneSize / 2), zoneSize, resolution);
+    return getHeightForZoneInfo(zoneInfo, useGlobalPosition);
+}
+
+float TerraBrush::getHeightForZoneInfo(ZoneInfo &zoneInfo, bool useGlobalPosition) const {
     Ref<ZoneResource> zone;
     if (!get_terrainZones().is_null()) {
         zone = get_terrainZones()->getZoneForZoneInfo(zoneInfo);
+    }
+
+    Vector3 globalPosition = Vector3(0, 0, 0);
+    if (useGlobalPosition) {
+        globalPosition = get_global_position();
     }
 
     if (!zone.is_null() && !zone->get_heightMapImage().is_null()) {
@@ -1310,25 +1308,48 @@ float TerraBrush::getHeightAtPosition(float x, float z, bool useGlobalPosition) 
     return Utils::InfinityValue;
 }
 
-Vector3 TerraBrush::getHeightForMousePosition(Camera3D *camera) const {
-    Vector2 screenPosition = camera->get_viewport()->get_mouse_position();
-    return getHeightForScreenPosition(camera, screenPosition);
+Vector3 TerraBrush::getNormalForHeights(float hL, float hR, float hB, float hF) const {
+    return Vector3(hL - hR, 2.0, hB - hF).normalized();
 }
 
-Vector3 TerraBrush::getHeightForScreenPosition(Camera3D *camera, Vector2 screenPosition) const {
+float TerraBrush::getSlopeAtPosition(float x, float y) const {
+	float hL = getHeightAtPosition(x - 1.0, y, false);
+	float hR = getHeightAtPosition(x + 1.0, y, false);
+	float hB = getHeightAtPosition(x, y - 1.0, false);
+	float hF = getHeightAtPosition(x, y + 1.0, false);
+
+    Vector3 normal = getNormalForHeights(hL, hR, hB, hF);
+
+    return 1.0 - normal.dot(Vector3(0.0, 1.0, 0.0));
+}
+
+Vector3 TerraBrush::getHeightForMousePosition(Camera3D *camera, bool allowNoZone) const {
+    Vector2 screenPosition = camera->get_viewport()->get_mouse_position();
+    return getHeightForScreenPosition(camera, screenPosition, allowNoZone);
+}
+
+Vector3 TerraBrush::getHeightForScreenPosition(Camera3D *camera, Vector2 screenPosition, bool allowNoZone) const {
     Vector3 from = camera->project_ray_origin(screenPosition);
     Vector3 direction = camera->project_ray_normal(screenPosition);
+
+    Vector3 noZonePosition = Vector3(Utils::InfinityValue, Utils::InfinityValue, Utils::InfinityValue);
 
     for (int i = 0; i < 20000; i++) {
         Vector3 position = from + (direction * i * 0.1f) - get_global_position();
 
         float zoneHeight = getHeightAtPosition(position.x, position.z, false);
-        if (zoneHeight != Utils::InfinityValue && zoneHeight >= position.y) {
+        if (zoneHeight != Utils::InfinityValue && zoneHeight >= position.y && zoneHeight <= position.y + 1.0) {
             return Vector3(position.x, zoneHeight, position.z) + get_global_position();
+        } else if (allowNoZone && noZonePosition.x == Utils::InfinityValue && position.y <= get_global_position().y) {
+            noZonePosition = Vector3(position.x, position.y, position.z);
         }
     }
 
-    return Vector3(Utils::InfinityValue, Utils::InfinityValue, Utils::InfinityValue);
+    if (allowNoZone) {
+        return noZonePosition;
+    } else {
+        return Vector3(Utils::InfinityValue, Utils::InfinityValue, Utils::InfinityValue);
+    }
 }
 
 void TerraBrush::hideObject(int objectLayerIndex, int64_t objectId) const {

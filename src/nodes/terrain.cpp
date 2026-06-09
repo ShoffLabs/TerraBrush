@@ -29,7 +29,9 @@ void Terrain::_notification(int what) {
     switch (what) {
         case NOTIFICATION_EXIT_TREE: {
             if (_collisionThread.is_valid()) {
-                _collisionCancellationSource.cancel();
+                if (_collisionCancellationSource.is_valid()) {
+                    _collisionCancellationSource->cancel();
+                }
                 _collisionThread->wait_to_finish();
             }
 
@@ -204,10 +206,12 @@ void Terrain::terrainSplatmapsUpdated() {
 void Terrain::updateCollisionShape() {
     if (_createCollisionInThread) {
         if (_collisionThread.is_valid()) {
-            _collisionCancellationSource.cancel();
+            if (_collisionCancellationSource.is_valid()) {
+                _collisionCancellationSource->cancel();
+            }
             _collisionThread->wait_to_finish();
         }
-        _collisionCancellationSource = CancellationSource();
+        _collisionCancellationSource = memnew(CancellationSource);
     }
 
     for (int i = 0; i < _terrainCollider->get_child_count(); i++) {
@@ -241,15 +245,23 @@ void Terrain::updateCollisionShape() {
 }
 
 void Terrain::onUpdateTerrainCollision(const TypedDictionary<Ref<ZoneResource>, Dictionary> zonesData) {
-    CancellationToken token = _collisionCancellationSource.token;
+    Ref<CancellationToken> token = nullptr;
+    if (!_collisionCancellationSource.is_null()) {
+        token = _collisionCancellationSource->getToken();
+    }
 
     for (int i = 0; i < _terrainZones->get_zones().size(); i++) {
-        if (token.isCancellationRequested) {
+        if (!token.is_null() && token->isCancellationRequested()) {
             return;
         }
 
         Ref<ZoneResource> zone = _terrainZones->get_zones()[i];
         Dictionary collisionData = zonesData[zone];
+
+        Ref<HeightMapShape3D> heightMapShape3D = collisionData[CollisionDataShapeKey];
+        if (heightMapShape3D.is_null()) {
+            return;
+        }
 
         Ref<ZoneResource> leftNeighbourZone = getZoneForPosition(zone->get_zonePosition().x - 1, zone->get_zonePosition().y);
         Ref<ZoneResource> topNeighbourZone = getZoneForPosition(zone->get_zonePosition().x, zone->get_zonePosition().y - 1);
@@ -266,14 +278,14 @@ void Terrain::onUpdateTerrainCollision(const TypedDictionary<Ref<ZoneResource>, 
             waterImage = collisionData[CollisionDataWaterImageKey];
         }
 
-        if (token.isCancellationRequested) {
+        if (!token.is_null() && token->isCancellationRequested()) {
             return;
         }
 
         PackedFloat32Array terrainData = PackedFloat32Array();
         for (int y = 0; y < imageHeight; y++) {
             for (int x = 0; x < imageWidth; x++) {
-                if (token.isCancellationRequested) {
+                if (!token.is_null() && token->isCancellationRequested()) {
                     return;
                 }
 
@@ -321,11 +333,10 @@ void Terrain::onUpdateTerrainCollision(const TypedDictionary<Ref<ZoneResource>, 
             }
         }
 
-        if (token.isCancellationRequested) {
+        if (!token.is_null() && token->isCancellationRequested()) {
             return;
         }
 
-        Ref<HeightMapShape3D> heightMapShape3D = collisionData[CollisionDataShapeKey];
         call_deferred("assignCollisionData", heightMapShape3D, terrainData);
     }
 }

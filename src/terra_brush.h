@@ -25,7 +25,7 @@ class TerraBrush : public Node3D {
 private:
     const int HeightMapFactor = 1;
 
-    String _version = "0.14.4-alpha";
+    String _version = "0.14.6-alpha";
 
     bool _initialized = false;
 
@@ -103,7 +103,6 @@ private:
     void createSnow();
     void createMetaInfo();
     void initializeImagesForTerrain(Ref<ZoneResource> zone);
-    float getSlopeAtPosition(float x, float y);
 
 protected:
     static void _bind_methods();
@@ -238,8 +237,11 @@ public:
     Ref<ZoneResource> addNewZone(Vector2i zonePosition);
     StaticBody3D *getTerrainCollider() const;
     float getHeightAtPosition(float x, float z, bool useGlobalPosition) const;
-    Vector3 getHeightForMousePosition(Camera3D *camera) const;
-    Vector3 getHeightForScreenPosition(Camera3D *camera, Vector2 screenPosition) const;
+    float getHeightForZoneInfo(ZoneInfo &zoneInfo, bool useGlobalPosition) const;
+    Vector3 getNormalForHeights(float hL, float hR, float hB, float hF) const;
+    float getSlopeAtPosition(float x, float y) const;
+    Vector3 getHeightForMousePosition(Camera3D *camera, bool allowNoZone = false) const;
+    Vector3 getHeightForScreenPosition(Camera3D *camera, Vector2 screenPosition, bool allowNoZone = false) const;
     void hideObject(int objectLayerIndex, int64_t objectId) const;
     void showObject(int objectLayerIndex, int64_t objectId) const;
 };
