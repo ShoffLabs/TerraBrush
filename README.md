@@ -3,7 +3,7 @@
   <br>
 </h1>
 
-<h4 align="center">A simple <b>GDExtension</b> Terrain heightmap editor for <a href="https://godotengine.org/" target="_blank">Godot engine 4.5</a></h4>
+<h4 align="center">A simple <b>GDExtension</b> Terrain heightmap editor for <a href="https://godotengine.org/" target="_blank">Godot engine 4.5+</a></h4>
 
 <p align="center">
   <a href="https://godotengine.org/">
@@ -96,7 +96,7 @@ It runs in the browser, hosted on itch.io :
     - B - Show the PieMenu for the current brush
     - N - Show the options for the current tool (ex. While painting the textures, the PieMenu will show textures)
     - G - Show a quick select for the brush size
-    - H - Show a quick select for the brush strength
+    - J - Show a quick select for the brush strength
     - K - Toggle "Auto add zones"
     - X - Lock on X axis
     - Z - Lock on Z axis
